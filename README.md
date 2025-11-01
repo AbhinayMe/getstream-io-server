@@ -75,6 +75,16 @@ yarn start
 
 The server will start on `http://localhost:3000` (or the port specified in your `.env` file).
 
+## Documentation
+
+Complete API documentation is available in the `/docs` folder. Start here:
+
+- 📖 [Full Documentation](./docs/index.md) - API reference, guides, and FAQs
+- ⚡ [Quick Start](./docs/quick-start.md) - Get running in 5 minutes
+- 🔧 [Configuration Guide](./docs/configuration.md) - Environment setup
+- 🚀 [Deployment Guide](./docs/deployment.md) - Production deployment
+- ❓ [FAQ](./docs/faq.md) - Common questions and troubleshooting
+
 ## Testing with Postman
 
 This project includes a complete Postman collection and environment for testing all API endpoints.

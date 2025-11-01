@@ -20,8 +20,11 @@ getstream-io-server/
 │   ├── types/           # TypeScript type definitions
 │   └── index.ts         # Main application entry
 ├── dist/                # Compiled JavaScript output
+├── docs/                # Static Markdown documentation
 ├── GetStream-IO-Server.postman_collection.json
 ├── GetStream-IO-Server.postman_environment.json
+├── package.json
+├── tsconfig.json
 └── .env                 # Environment configuration
 ```
 
@@ -72,6 +75,7 @@ getstream-io-server/
 - Postman collection: `GetStream-IO-Server.postman_collection.json` (37 API requests organized in 5 folders)
 - Postman environment: `GetStream-IO-Server.postman_environment.json` (pre-configured variables)
 - Import both files into Postman for complete API testing
+- Documentation: `/docs` folder contains static Markdown files
 - Run `yarn dev` to start development server
 - Run `yarn build` to compile TypeScript
 - Run `yarn start` to run production build
