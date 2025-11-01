@@ -6,7 +6,7 @@ Detailed installation and setup instructions for GetStream.io Server.
 
 ### Minimum Requirements
 - **Node.js**: 18.0.0 or higher
-- **Yarn**: 1.22.0 or higher (npm is not supported)
+- **Yarn**: 1.22.0 or higher (Yarn is required as the package manager for this project)
 - **Memory**: 256MB RAM
 - **Storage**: 50MB free disk space
 
