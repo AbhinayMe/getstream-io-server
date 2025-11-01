@@ -174,7 +174,7 @@ Use PM2 for production:
 
 ```bash
 # Install PM2
-npm install -g pm2
+yarn global add pm2
 
 # Start application
 pm2 start dist/index.js --name "getstream-server"
