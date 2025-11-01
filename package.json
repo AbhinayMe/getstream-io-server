@@ -21,8 +21,13 @@
     "mvc",
     "rest-api"
   ],
-  "author": "",
+  "author": "AbhinayMe",
   "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AbhinayMe/getstream-io-server.git"
+  },
+  "homepage": "https://github.com/AbhinayMe/getstream-io-server#readme",
   "dependencies": {
     "@stream-io/node-sdk": "0.7.17",
     "cors": "^2.8.5",
