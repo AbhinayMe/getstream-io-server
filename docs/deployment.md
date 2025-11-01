@@ -119,7 +119,7 @@ docker run -p 3000:3000 \
 
 6. **Run with PM2**
    ```bash
-   npm install -g pm2
+   yarn global add pm2
    pm2 start dist/index.js --name "getstream-server"
    pm2 startup
    pm2 save
