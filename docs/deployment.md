@@ -9,7 +9,7 @@ Deploy GetStream.io Server to various platforms and environments.
 1. **Connect Repository**
    ```bash
    # Install Vercel CLI
-   npm i -g vercel
+   yarn global add vercel
 
    # Deploy
    vercel
