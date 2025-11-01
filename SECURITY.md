@@ -9,7 +9,7 @@ This repository follows a coordinated disclosure policy. Please use the guidance
 ## How to Report a Vulnerability
 Preferred methods:
 1. GitHub Security Advisories (recommended) — create a private security advisory.
-2. Email: mindplus88@outlook.com (or use the project's configured security contact on GitHub).
+2. Email (use the project's configured security contact on GitHub).
 
 Do NOT open a public issue for security problems.
 
@@ -49,6 +49,6 @@ Removing or redacting sensitive data (API keys, tokens) from logs is fine — do
 - We will publish a patched release and changelog entry with mitigation steps.
 - We will notify the reporter and provide credit if they choose to be acknowledged.
 
-Contact: security@bettermindhealth.com (or the repository’s configured GitHub security contact)
+Contact: Email (the repository’s configured GitHub security contact)
 
 Thank you for helping keep this project secure.
