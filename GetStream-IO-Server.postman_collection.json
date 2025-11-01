@@ -1,0 +1,607 @@
+{
+  "info": {
+    "name": "GetStream.io Server API",
+    "description": "Complete API collection for GetStream.io video call server with token generation, user management, call management, and webhooks",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "version": "1.0.0"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000",
+      "type": "string"
+    },
+    {
+      "key": "userId",
+      "value": "user123",
+      "type": "string"
+    },
+    {
+      "key": "callId",
+      "value": "call-123",
+      "type": "string"
+    },
+    {
+      "key": "callType",
+      "value": "default",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Health & Status",
+      "item": [
+        {
+          "name": "Check Server Health",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/health",
+              "host": ["{{baseUrl}}"],
+              "path": ["health"]
+            },
+            "description": "Check if the GetStream server is running and healthy"
+          },
+          "response": []
+        }
+      ],
+      "description": "Health check endpoints"
+    },
+    {
+      "name": "Token Management",
+      "item": [
+        {
+          "name": "Generate User Token",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userId\": \"{{userId}}\",\n  \"validityInSeconds\": 3600\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/tokens/user",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "tokens", "user"]
+            },
+            "description": "Generate a basic authentication token for a user. Token is valid for 1 hour by default."
+          },
+          "response": []
+        },
+        {
+          "name": "Generate User Token (Custom Validity)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userId\": \"{{userId}}\",\n  \"validityInSeconds\": 7200,\n  \"callId\": \"optional-call-id\",\n  \"callType\": \"default\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/tokens/user",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "tokens", "user"]
+            },
+            "description": "Generate a user token with custom validity (2 hours in this example)"
+          },
+          "response": []
+        },
+        {
+          "name": "Generate Call Token (Basic)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userId\": \"{{userId}}\",\n  \"callId\": \"{{callId}}\",\n  \"callType\": \"{{callType}}\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/tokens/call",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "tokens", "call"]
+            },
+            "description": "Generate a token with specific call access"
+          },
+          "response": []
+        },
+        {
+          "name": "Generate Call Token (Admin Role)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userId\": \"{{userId}}\",\n  \"callId\": \"{{callId}}\",\n  \"callType\": \"{{callType}}\",\n  \"role\": \"admin\",\n  \"validityInSeconds\": 3600\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/tokens/call",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "tokens", "call"]
+            },
+            "description": "Generate a call token with admin role and custom validity"
+          },
+          "response": []
+        },
+        {
+          "name": "Generate Call Token (Moderator Role)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userId\": \"moderator-user\",\n  \"callId\": \"{{callId}}\",\n  \"callType\": \"{{callType}}\",\n  \"role\": \"moderator\",\n  \"validityInSeconds\": 7200\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/tokens/call",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "tokens", "call"]
+            },
+            "description": "Generate a call token with moderator role"
+          },
+          "response": []
+        }
+      ],
+      "description": "Token generation endpoints for user authentication and call access"
+    },
+    {
+      "name": "User Management",
+      "item": [
+        {
+          "name": "List All Users",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/users?limit=25&offset=0",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "users"],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "25",
+                  "description": "Number of users to return (default: 25)"
+                },
+                {
+                  "key": "offset",
+                  "value": "0",
+                  "description": "Number of users to skip for pagination (default: 0)"
+                }
+              ]
+            },
+            "description": "Get a paginated list of all users. Use limit and offset parameters for pagination."
+          },
+          "response": []
+        },
+        {
+          "name": "Create User (Basic)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": \"{{userId}}\",\n  \"name\": \"John Doe\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/users",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "users"]
+            },
+            "description": "Create a basic user with ID and name"
+          },
+          "response": []
+        },
+        {
+          "name": "Create User (Complete Profile)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": \"user456\",\n  \"name\": \"Jane Smith\",\n  \"image\": \"https://i.pravatar.cc/150?img=5\",\n  \"role\": \"admin\",\n  \"custom\": {\n    \"department\": \"Engineering\",\n    \"title\": \"Senior Developer\",\n    \"location\": \"San Francisco\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/users",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "users"]
+            },
+            "description": "Create a user with complete profile including avatar, role, and custom metadata"
+          },
+          "response": []
+        },
+        {
+          "name": "Get User Details",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/users/{{userId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "users", "{{userId}}"]
+            },
+            "description": "Retrieve detailed information about a specific user"
+          },
+          "response": []
+        },
+        {
+          "name": "Update User Profile",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"John Doe Updated\",\n  \"image\": \"https://i.pravatar.cc/150?img=12\",\n  \"custom\": {\n    \"title\": \"Lead Engineer\",\n    \"status\": \"active\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/users/{{userId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "users", "{{userId}}"]
+            },
+            "description": "Update user information including name, avatar, and custom data"
+          },
+          "response": []
+        },
+        {
+          "name": "Delete User",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/users/{{userId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "users", "{{userId}}"]
+            },
+            "description": "Remove a user from the system"
+          },
+          "response": []
+        }
+      ],
+      "description": "User creation, retrieval, update, and deletion endpoints"
+    },
+    {
+      "name": "Call Management",
+      "item": [
+        {
+          "name": "List All Calls",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/calls",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "calls"]
+            },
+            "description": "Get a list of all calls (up to 25 by default)"
+          },
+          "response": []
+        },
+        {
+          "name": "Create Call (Basic)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"callId\": \"{{callId}}\",\n  \"callType\": \"{{callType}}\",\n  \"createdBy\": \"{{userId}}\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/calls",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "calls"]
+            },
+            "description": "Create a basic video call"
+          },
+          "response": []
+        },
+        {
+          "name": "Create Call (With Members)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"callId\": \"team-meeting-001\",\n  \"callType\": \"default\",\n  \"createdBy\": \"{{userId}}\",\n  \"members\": [\n    {\n      \"user_id\": \"{{userId}}\",\n      \"role\": \"admin\"\n    },\n    {\n      \"user_id\": \"user456\"\n    },\n    {\n      \"user_id\": \"user789\"\n    }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/calls",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "calls"]
+            },
+            "description": "Create a call with multiple members and roles"
+          },
+          "response": []
+        },
+        {
+          "name": "Create Call (With Settings)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"callId\": \"conference-call-001\",\n  \"callType\": \"default\",\n  \"createdBy\": \"{{userId}}\",\n  \"members\": [\n    {\n      \"user_id\": \"{{userId}}\",\n      \"role\": \"admin\"\n    }\n  ],\n  \"settings\": {\n    \"video\": {\n      \"camera_default_on\": true,\n      \"enabled\": true\n    },\n    \"audio\": {\n      \"mic_default_on\": true\n    },\n    \"recording\": {\n      \"mode\": \"available\"\n    },\n    \"screensharing\": {\n      \"enabled\": true\n    }\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/calls",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "calls"]
+            },
+            "description": "Create a call with custom audio/video settings"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Call Details",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/calls/{{callType}}/{{callId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "calls", "{{callType}}", "{{callId}}"]
+            },
+            "description": "Retrieve detailed information about a specific call"
+          },
+          "response": []
+        },
+        {
+          "name": "Update Call Settings (Disable Recording)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"settings\": {\n    \"recording\": {\n      \"mode\": \"disabled\"\n    }\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/calls/{{callType}}/{{callId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "calls", "{{callType}}", "{{callId}}"]
+            },
+            "description": "Update call settings to disable recording"
+          },
+          "response": []
+        },
+        {
+          "name": "Update Call Settings (Enable Features)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"settings\": {\n    \"video\": {\n      \"camera_default_on\": false,\n      \"enabled\": true\n    },\n    \"audio\": {\n      \"mic_default_on\": false\n    },\n    \"screensharing\": {\n      \"enabled\": true\n    }\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/calls/{{callType}}/{{callId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "calls", "{{callType}}", "{{callId}}"]
+            },
+            "description": "Update call settings for audio, video, and screen sharing"
+          },
+          "response": []
+        },
+        {
+          "name": "End Call",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/calls/{{callType}}/{{callId}}/end",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "calls", "{{callType}}", "{{callId}}", "end"]
+            },
+            "description": "Terminate an active call for all participants"
+          },
+          "response": []
+        }
+      ],
+      "description": "Call creation, management, and termination endpoints"
+    },
+    {
+      "name": "Webhooks",
+      "item": [
+        {
+          "name": "Process Webhook - Call Created",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Signature",
+                "value": "your-webhook-signature",
+                "description": "Required for webhook verification"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"type\": \"call.created\",\n  \"created_at\": \"2025-11-01T10:00:00.000Z\",\n  \"call_cid\": \"default:call-123\",\n  \"call\": {\n    \"id\": \"call-123\",\n    \"type\": \"default\",\n    \"created_by\": {\n      \"id\": \"user123\",\n      \"name\": \"John Doe\"\n    }\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/webhooks",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "webhooks"]
+            },
+            "description": "Simulate a call.created webhook event"
+          },
+          "response": []
+        },
+        {
+          "name": "Process Webhook - Call Ended",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Signature",
+                "value": "your-webhook-signature"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"type\": \"call.ended\",\n  \"created_at\": \"2025-11-01T11:00:00.000Z\",\n  \"call_cid\": \"default:call-123\",\n  \"call\": {\n    \"id\": \"call-123\",\n    \"type\": \"default\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/webhooks",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "webhooks"]
+            },
+            "description": "Simulate a call.ended webhook event"
+          },
+          "response": []
+        },
+        {
+          "name": "Process Webhook - Call Live Started",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Signature",
+                "value": "your-webhook-signature"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"type\": \"call.live_started\",\n  \"created_at\": \"2025-11-01T10:05:00.000Z\",\n  \"call_cid\": \"default:call-123\",\n  \"call\": {\n    \"id\": \"call-123\",\n    \"type\": \"default\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/webhooks",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "webhooks"]
+            },
+            "description": "Simulate a call.live_started webhook event"
+          },
+          "response": []
+        },
+        {
+          "name": "Process Webhook - Recording Started",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Signature",
+                "value": "your-webhook-signature"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"type\": \"call.recording_started\",\n  \"created_at\": \"2025-11-01T10:10:00.000Z\",\n  \"call_cid\": \"default:call-123\",\n  \"call\": {\n    \"id\": \"call-123\",\n    \"type\": \"default\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/webhooks",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "webhooks"]
+            },
+            "description": "Simulate a call.recording_started webhook event"
+          },
+          "response": []
+        },
+        {
+          "name": "Process Webhook - Member Added",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Signature",
+                "value": "your-webhook-signature"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"type\": \"call.member_added\",\n  \"created_at\": \"2025-11-01T10:15:00.000Z\",\n  \"call_cid\": \"default:call-123\",\n  \"call\": {\n    \"id\": \"call-123\",\n    \"type\": \"default\"\n  },\n  \"members\": [\n    {\n      \"user_id\": \"user456\",\n      \"role\": \"member\"\n    }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/webhooks",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "webhooks"]
+            },
+            "description": "Simulate a call.member_added webhook event"
+          },
+          "response": []
+        }
+      ],
+      "description": "Webhook endpoints for processing GetStream.io events"
+    }
+  ]
+}
